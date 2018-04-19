@@ -1,0 +1,60 @@
+﻿
+http://blog.csdn.net/nimasike/article/details/51867046
+keepalived -f /etc/keepalived/keepalived.conf -d -D
+
+centos1 配置
+keepalived.conf内容如下：
+
+! Configuration File for keepalived  
+  
+  
+global_defs {   
+   router_id  NodeA   
+}  
+  
+  
+vrrp_instance VI_1 {    
+    state MASTER   #指定A节点为主节点 备用节点上设置为BACKUP即可    
+    interface ens33   #绑定虚拟IP的网络接口    
+    virtual_router_id 51  #VRRP组名，两个节点的设置必须一样，以指明各个节点属于同一VRRP组    
+    priority 100   #主节点的优先级（1-254之间），备用节点必须比主节点优先级低    
+    advert_int 1   #组播信息发送间隔，两个节点设置必须一样    
+    authentication {   #设置验证信息，两个节点必须一致    
+        auth_type PASS    
+        auth_pass 1111    
+    }    
+    virtual_ipaddress {   #指定虚拟IP, 两个节点设置必须一样    
+        192.168.0.200
+    }    
+}  
+
+
+centos2 配置
+keepalived.conf内容如下：
+
+
+! Configuration File for keepalived  
+  
+  
+global_defs {
+ 
+   router_id  NodeB
+}
+    
+vrrp_instance VI_1 {
+    state MASTER            #指定A节点为主节点 备用节点上设置为BACKUP即可    
+    interface ens33         #绑定虚拟IP的网络接口    
+    virtual_router_id 51    #VRRP组名，两个节点的设置必须一样，以指明各个节点属于同一VRRP组    
+    priority 99             #主节点的优先级（1-254之间），备用节点必须比主节点优先级低    
+    advert_int 1            #组播信息发送间隔，两个节点设置必须一样    
+    authentication {        #设置验证信息，两个节点必须一致    
+        auth_type PASS    
+        auth_pass 1111    
+    }    
+    virtual_ipaddress {     #指定虚拟IP, 两个节点设置必须一样    
+        192.168.0.200
+    }
+}  
+
+
+

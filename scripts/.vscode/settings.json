@@ -1,0 +1,10 @@
+{
+    "python.unitTest.unittestArgs": [
+        "-v",
+        "-s",
+        "./Python监控脚本",
+        "-p",
+        "*test.py"
+    ],
+    "python.unitTest.unittestEnabled": true
+}
